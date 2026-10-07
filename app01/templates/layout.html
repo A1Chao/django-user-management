@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}用户管理系统{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
+    <style>
+        body {
+            padding-top: 70px;
+            background-color: #f5f7fa;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+        }
+
+        .page-header {
+            margin-top: 0;
+        }
+
+        .table > tbody > tr > td {
+            vertical-align: middle;
+        }
+
+        .panel {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+        }
+    </style>
+    {% block css %}{% endblock %}
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#app-navbar">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/info/list/">用户管理系统</a>
+        </div>
+        <div class="collapse navbar-collapse" id="app-navbar">
+            <ul class="nav navbar-nav">
+                <li {% if request.path == '/info/list/' %}class="active"{% endif %}>
+                    <a href="/info/list/"><span class="glyphicon glyphicon-list"></span> 用户列表</a>
+                </li>
+                <li {% if request.path == '/info/add/' %}class="active"{% endif %}>
+                    <a href="/info/add/"><span class="glyphicon glyphicon-plus"></span> 添加用户</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
+{% block js %}{% endblock %}
+</body>
+</html>

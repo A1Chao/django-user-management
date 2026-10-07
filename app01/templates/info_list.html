@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% block title %}用户列表 - 用户管理系统{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2>用户列表
+            <small>共 {{ data_list|length }} 条记录</small>
+        </h2>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <a href="/info/add/" class="btn btn-primary">
+                <span class="glyphicon glyphicon-plus"></span> 添加用户
+            </a>
+        </div>
+
+        <table class="table table-bordered table-hover table-striped" style="margin-bottom: 0;">
+            <thead>
+            <tr class="info">
+                <th style="width: 70px;">序号</th>
+                <th style="width: 80px;">id</th>
+                <th>姓名</th>
+                <th>密码</th>
+                <th style="width: 90px;">年龄</th>
+                <th style="width: 110px;">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for info in data_list %}
+                <tr>
+                    {# 序号用 forloop.counter，与数据库 id 解耦：id 会因删除而断裂，序号始终连续 #}
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ info.id }}</td>
+                    <td>{{ info.name }}</td>
+                    <td>{{ info.password }}</td>
+                    <td>{{ info.age }}</td>
+                    <td>
+                        <form method="post" action="/info/delete/" style="display: inline;"
+                              onsubmit="return confirm('确定要删除「{{ info.name|escapejs }}」吗？');">
+                            {% csrf_token %}
+                            <input type="hidden" name="nid" value="{{ info.id }}">
+                            <button type="submit" class="btn btn-danger btn-xs">
+                                <span class="glyphicon glyphicon-trash"></span> 删除
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted" style="padding: 30px;">
+                        暂无数据，请先<a href="/info/add/">添加用户</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
